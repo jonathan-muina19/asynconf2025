@@ -1,0 +1,48 @@
+import 'package:asynconf2025/widgets/my_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF1877F2),
+        centerTitle: true,
+        title: Text('Asynconf 2025', style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold
+          ),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+                'assets/images/logo.svg',
+                color: Color(0xFF1877F2)
+            ),
+            SizedBox(height: 10),
+            Text('Asynconf 2025',style: TextStyle(
+              fontSize: 42,
+              fontFamily: 'Poppins'
+              )
+            ),
+            Text('Salon virtuel de la prograammation du 30 au 21 juillet 2025',style: TextStyle(
+              fontSize: 23,
+            ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            MyButton(
+              onTap: ()=> print('Clicked me !'),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
