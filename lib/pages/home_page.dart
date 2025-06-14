@@ -1,6 +1,7 @@
 import 'package:asynconf2025/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -38,7 +39,9 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             MyButton(
-              onTap: ()=> print('Clicked me !'),
+              onTap: (){
+                context.push('/events_page');
+              },
             )
           ],
         ),
