@@ -1,4 +1,5 @@
 import 'package:asynconf2025/pages/events_page.dart';
+import 'package:asynconf2025/pages/form_event.dart';
 import 'package:asynconf2025/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -6,7 +7,6 @@ import 'package:go_router/go_router.dart';
 void main() {
   runApp(const MyApp());
 }
-
 
 final _router = GoRouter(
     routes: [
@@ -18,9 +18,16 @@ final _router = GoRouter(
           path: '/events_page',
           builder: (context, state) => EventsPage()
       ),
-
+      GoRoute(
+        path: '/formulaire',
+        pageBuilder: (context, state){
+          return MaterialPage(
+            fullscreenDialog: true,
+              child: FormEvent()
+          );
+        }
+      )
     ]
-
 );
 
 class MyApp extends StatelessWidget {

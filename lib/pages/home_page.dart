@@ -28,17 +28,19 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text('Asynconf 2025',style: TextStyle(
-              fontSize: 42,
+              fontSize: 30,
               fontFamily: 'Poppins'
               )
             ),
-            Text('Salon virtuel de la prograammation du 30 au 21 juillet 2025',style: TextStyle(
-              fontSize: 23,
+            Text('Salon virtuel de la programmation du 30 au 21 juillet 2025',style: TextStyle(
+              fontSize: 21,
             ),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
             MyButton(
+              icon: Icon(Icons.calendar_month),
+              textTitle: 'Afficher le planing',
               onTap: (){
                 context.push('/events_page');
               },
