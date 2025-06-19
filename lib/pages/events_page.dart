@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class EventsPage extends StatefulWidget {
   const EventsPage({super.key});
@@ -10,21 +12,6 @@ class EventsPage extends StatefulWidget {
 
 class _EventsPageState extends State<EventsPage> {
 
-  final events = [
-    {
-      'speaker' : 'Elon Musk',
-      'subject' : 'Spacex & Tesla',
-      'avatar'  : 'musk',
-      'date'    : '20 juin 2025'
-    },
-    {
-      'speaker' : 'Sunder Pichai',
-      'subject' : 'Co google Founder',
-      'avatar'  : 'googleco',
-      'date'    : '27 juin 2025'
-    },
-
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -39,35 +26,56 @@ class _EventsPageState extends State<EventsPage> {
         ),
         
       ),
-      body: ListView.builder(
-        itemCount: events.length,
-        itemBuilder: (context, index){
-          final event = events[index];
-          final avatar = event['avatar'];
-          final speaker = event['speaker'];
-          final subject = event['subject'];
-          final date = event['date'];
+      body: StreamBuilder(
+        // On recupere les donnees de la collection Events
+        // On peut aussi faire de filtres
+          stream: FirebaseFirestore.instance.collection('Events').orderBy('date').snapshots(),
+          builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if(!snapshot.hasData){
+              return Text("Aucune conference");
+            }
+            List<dynamic> events = [];
+            snapshot.data!.docs.forEach((element){
+              events.add(element);
+            });
+            return ListView.builder(
+              itemCount: events.length,
+              itemBuilder: (context, index){
+                final event = events[index];
+                final avatar = event['avatar'].toString().toLowerCase();
+                final speaker = event['speaker'];
+                final subject = event['subject'];
+                final Timestamp timestamp = event['date'];
+                final String date = DateFormat.yMd().add_jm().format(timestamp.toDate());
 
-          return Card(
-            child: ListTile(
-              leading: CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage('assets/images/$avatar.jpg'),
-              ),
-              title: Text('$speaker', style: TextStyle(
-                fontWeight: FontWeight.bold
-                ),
-              ),
-              subtitle: Text('$subject , $date'),
-              trailing: IconButton(
-                  onPressed: (){
-                  },
-                  icon: Icon(Icons.info_rounded)
-              ),
+                return Card(
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 20,
+                      backgroundImage: AssetImage('assets/images/$avatar.jpg'),
+                    ),
+                    title: Text('$speaker', style: TextStyle(
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    subtitle: Text('$subject , \n$date'),
+                    trailing: IconButton(
+                        onPressed: (){
+                        },
+                        icon: Icon(Icons.info_rounded)
+                    ),
 
-            ),
-          );
-        },
+                  ),
+                );
+              },
+            );
+
+          }
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
