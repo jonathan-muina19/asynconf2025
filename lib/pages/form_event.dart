@@ -2,11 +2,12 @@ import 'package:asynconf2025/widgets/date_field.dart';
 import 'package:asynconf2025/widgets/dropdownButtonField.dart';
 import 'package:asynconf2025/widgets/my_button.dart';
 import 'package:asynconf2025/widgets/my_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_field/date_field.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class FormEvent extends StatefulWidget {
-
 
   const FormEvent({super.key});
 
@@ -60,7 +61,14 @@ class _FormEventState extends State<FormEvent> {
                   controller: controllerSubject
               ),
               SizedBox(height: 20),
-              DateField(),
+              DateField(
+                onDateSelected: (DateTime date) {
+                  setState(() {
+                    confDateTime = date;
+                  });
+                },
+              ),
+
               SizedBox(height: 20),
               Dropdownbuttonfield(
                   selectedConfType: selectedConfType,
@@ -76,16 +84,23 @@ class _FormEventState extends State<FormEvent> {
                       final speakerName = controllerSpeaker.text;
                       final subdjetName = controllerSubject.text;
                       final confType = selectedConfType;
-                      final dateConf = confDateTime;
+
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Envoi en cours...'))
                       );
                       FocusScope.of(context).requestFocus(FocusNode());
-                      print('Ajout du speaker $speakerName ');
-                      print('Sujet : $subdjetName');
-                      print('Type de conference :$confType');
-                      print('Date du conference : $confDateTime');
+
+                      // Ajout dans la base des donnees
+                      // 1. On recupere notre collection dans Firebase
+                      CollectionReference eventsRef = FirebaseFirestore.instance.collection('Events');
+                      eventsRef.add({
+                        'speaker' : speakerName,
+                        'subject' : subdjetName,
+                        'date' :Timestamp.fromDate(confDateTime),
+                        'avatar' : 'musk'
+                      });
+
                     }
                   },
                   textTitle: 'Envoyer',
