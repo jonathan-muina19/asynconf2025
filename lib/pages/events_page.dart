@@ -22,7 +22,8 @@ class _EventsPageState extends State<EventsPage> {
       'subject' : 'Co google Founder',
       'avatar'  : 'googleco',
       'date'    : '27 juin 2025'
-    }
+    },
+
   ];
 
   @override

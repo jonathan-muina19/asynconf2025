@@ -1,4 +1,5 @@
 import 'package:asynconf2025/widgets/date_field.dart';
+import 'package:asynconf2025/widgets/dropdownButtonField.dart';
 import 'package:asynconf2025/widgets/my_button.dart';
 import 'package:asynconf2025/widgets/my_textfield.dart';
 import 'package:date_field/date_field.dart';
@@ -61,44 +62,13 @@ class _FormEventState extends State<FormEvent> {
               SizedBox(height: 20),
               DateField(),
               SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: DropdownButtonFormField(
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 2.0), // Exemple : Couleur verte et plus épaisse
-                      borderRadius: BorderRadius.all(Radius.circular(15)
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(15)
-                    )
-                  ),
-                    items: const [
-                      DropdownMenuItem(
-                          value: 'talk',
-                          child: Text('Talk show')
-                      ),
-                      DropdownMenuItem(
-                          value: 'demo',
-                          child: Text('Demo de code')
-                      ),
-                      DropdownMenuItem(
-                          value: 'partner',
-                          child: Text('Partner')
-                      ),
-                    ],
-                    value: selectedConfType,
-                    onChanged: (value){
+              Dropdownbuttonfield(
+                  selectedConfType: selectedConfType,
+                  onChanged: (value){
                     setState(() {
-                      // Le point d'exclamation apres value!
-                      // ce pour preciser que cette valeur peut etre null
                       selectedConfType = value!;
                     });
-
-                    }
-                ),
+                  }
               ),
               MyButton(
                   onTap: (){

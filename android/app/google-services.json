@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "912825365518",
+    "project_id": "asynconf-c37eb",
+    "storage_bucket": "asynconf-c37eb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912825365518:android:85b7205395d8f92dae785f",
+        "android_client_info": {
+          "package_name": "com.example.asynconf2025"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQOvyVP3hUiUzIYd80KDsg8wE_UJ9H1f8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
