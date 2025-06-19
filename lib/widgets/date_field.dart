@@ -19,17 +19,21 @@ class _DateFieldState extends State<DateField> {
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: DateTimeFormField(
         decoration: const InputDecoration(
+          focusColor: Colors.blue,
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blue, width: 2.0),
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
+
           labelText: 'Choisir une date',
           labelStyle: TextStyle(color: Color(0xFF616161)),
+
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
         ),
+
         validator: (value) {
           if (value == null || value == '') {
             return 'Ce champ est obligatoire';

@@ -85,7 +85,6 @@ class _FormEventState extends State<FormEvent> {
                       final subdjetName = controllerSubject.text;
                       final confType = selectedConfType;
 
-
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Envoi en cours...'))
                       );
@@ -98,6 +97,7 @@ class _FormEventState extends State<FormEvent> {
                         'speaker' : speakerName,
                         'subject' : subdjetName,
                         'date' :Timestamp.fromDate(confDateTime),
+                        'type' : confType,
                         'avatar' : 'musk'
                       });
 
