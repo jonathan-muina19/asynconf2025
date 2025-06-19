@@ -17,7 +17,7 @@ class _EventsPageState extends State<EventsPage> {
   void initState() {
     super.initState();
     // Délai simulé de 2 secondes
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _isLoading = false;
       });
@@ -91,7 +91,7 @@ class _EventsPageState extends State<EventsPage> {
                     style: const TextStyle(
                         fontWeight: FontWeight.bold),
                   ),
-                  subtitle: Text('$subject,\n$date'),
+                  subtitle: Text('$subject\n$date'),
                   trailing: IconButton(
                     onPressed: () {
                       // future: voir détails
@@ -104,16 +104,7 @@ class _EventsPageState extends State<EventsPage> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.push('/formulaire');
-        },
-        backgroundColor: const Color(0xFF1877F2),
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
+
     );
   }
 }
