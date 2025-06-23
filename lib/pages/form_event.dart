@@ -3,12 +3,13 @@ import 'package:asynconf2025/widgets/dropdownButtonField.dart';
 import 'package:asynconf2025/widgets/my_button.dart';
 import 'package:asynconf2025/widgets/my_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore: unused_import
 import 'package:date_field/date_field.dart';
+// ignore: unused_import
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class FormEvent extends StatefulWidget {
-
   const FormEvent({super.key});
 
   @override
@@ -19,6 +20,8 @@ class _FormEventState extends State<FormEvent> {
   final TextEditingController controllerSpeaker = TextEditingController();
   final TextEditingController controllerSubject = TextEditingController();
   String selectedConfType = 'talk';
+  // ignore: unused_field
+  final TextEditingController _dateController = TextEditingController();
   DateTime confDateTime = DateTime.now();
 
   final _formKey = GlobalKey<FormState>();
@@ -26,9 +29,9 @@ class _FormEventState extends State<FormEvent> {
   @override
   // Pour liberer la memoire une fois qu'on recupere les donnes des textformfield
   void dispose() {
-    super.dispose();
     controllerSpeaker.dispose();
     controllerSubject.dispose();
+    super.dispose();
   }
 
   @override
@@ -37,10 +40,9 @@ class _FormEventState extends State<FormEvent> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0xFF1877F2),
-        title: Text('Formulaire', style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold
-          ),
+        title: Text(
+          'Formulaire',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
       body: Form(
@@ -50,15 +52,15 @@ class _FormEventState extends State<FormEvent> {
             children: [
               SizedBox(height: 20),
               MyTextfield(
-                  labelText: 'Nom du speaker',
-                  hintText: 'ex: Bill Gates',
-                  controller: controllerSpeaker
+                labelText: 'Nom du speaker',
+                hintText: 'ex: Bill Gates',
+                controller: controllerSpeaker,
               ),
               SizedBox(height: 20),
               MyTextfield(
-                  labelText: 'Nom du Sujet',
-                  hintText: '',
-                  controller: controllerSubject
+                labelText: 'Nom du Sujet',
+                hintText: '',
+                controller: controllerSubject,
               ),
               SizedBox(height: 20),
               DateField(
@@ -71,41 +73,44 @@ class _FormEventState extends State<FormEvent> {
 
               SizedBox(height: 20),
               Dropdownbuttonfield(
-                  selectedConfType: selectedConfType,
-                  onChanged: (value){
-                    setState(() {
-                      selectedConfType = value!;
-                    });
-                  }
+                selectedConfType: selectedConfType,
+                onChanged: (value) {
+                  setState(() {
+                    selectedConfType = value!;
+                  });
+                },
               ),
               MyButton(
-                  onTap: (){
-                    if(_formKey.currentState!.validate()){
-                      final speakerName = controllerSpeaker.text;
-                      final subdjetName = controllerSubject.text;
-                      final confType = selectedConfType;
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    final speakerName = controllerSpeaker.text;
+                    final subdjetName = controllerSubject.text;
+                    final confType = selectedConfType;
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Envoi en cours...'))
-                      );
-                      FocusScope.of(context).requestFocus(FocusNode());
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Envoi en cours...')),
+                    );
+                    FocusScope.of(context).requestFocus(FocusNode());
 
-                      // Ajout dans la base des donnees
-                      // 1. On recupere notre collection dans Firebase
-                      CollectionReference eventsRef = FirebaseFirestore.instance.collection('Events');
-                      eventsRef.add({
-                        'speaker' : speakerName,
-                        'subject' : subdjetName,
-                        'date' :Timestamp.fromDate(confDateTime),
-                        'type' : confType,
-                        'avatar' : 'musk'
-                      });
-
-                    }
-                  },
-                  textTitle: 'Envoyer',
-                  icon: Icon(Icons.send)
-              )
+                    // Ajout dans la base des donnees
+                    // 1. On recupere notre collection dans Firebase
+                    CollectionReference eventsRef = FirebaseFirestore.instance
+                        .collection('Events');
+                    eventsRef.add({
+                      'speaker': speakerName,
+                      'subject': subdjetName,
+                      'date': Timestamp.fromDate(confDateTime),
+                      'type': confType,
+                      'avatar': 'musk',
+                    });
+                    controllerSpeaker.clear();
+                    controllerSubject.clear();
+                    selectedConfType == '';
+                  }
+                },
+                textTitle: 'Envoyer',
+                icon: Icon(Icons.send),
+              ),
             ],
           ),
         ),

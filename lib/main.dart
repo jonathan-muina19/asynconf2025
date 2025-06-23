@@ -6,12 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -20,7 +18,7 @@ final _router = GoRouter(
   routes: [
     // ShellRoute permet d’ajouter un Scaffold commun à plusieurs pages.
     // Parfait pour mettre une AppBar et un BottomNavigationBar partagés.
-    // Quand on utilise go_router pour la navigation
+    //N.B : ShellRoute c'est  quand on veut utiliser go_router pour la navigation
     ShellRoute(
       builder: (context, state, child) {
         // Détecter la route active
@@ -29,8 +27,7 @@ final _router = GoRouter(
 
         if (location == '/events_page') {
           currentIndex = 1;
-        }
-        else if (location == '/formulaire') {
+        } else if (location == '/formulaire') {
           currentIndex = 2;
         }
 
@@ -45,17 +42,13 @@ final _router = GoRouter(
                 context.go('/');
               } else if (index == 1) {
                 context.go('/events_page');
-              }
-              else if(index == 2){
+              } else if (index == 2) {
                 context.go('/formulaire');
               }
             },
             selectedItemColor: const Color(0xFF1877F2),
             items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Accueil',
-              ),
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
               BottomNavigationBarItem(
                 icon: Icon(Icons.calendar_month),
                 label: 'Événements',
@@ -69,10 +62,7 @@ final _router = GoRouter(
         );
       },
       routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, state) => const HomePage(),
-        ),
+        GoRoute(path: '/', builder: (context, state) => const HomePage()),
         GoRoute(
           path: '/events_page',
           builder: (context, state) => const EventsPage(),
@@ -83,8 +73,8 @@ final _router = GoRouter(
         ),
       ],
     ),
-    // Autres routes (ex: formulaire) qui ne doivent pas avoir le BottomNav
 
+    // Autres routes (ex: formulaire) qui ne doivent pas avoir le BottomNav
   ],
 );
 
@@ -102,11 +92,7 @@ class _MyAppState extends State<MyApp> {
       routerConfig: _router,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          iconTheme: IconThemeData(
-            color: Colors.white
-          )
-        )
+        appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
     );
   }

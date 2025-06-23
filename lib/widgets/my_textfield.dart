@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyTextfield extends StatefulWidget {
   final String labelText;
   final String hintText;
-  final  controller;
+  final controller;
 
   const MyTextfield({
     super.key,
@@ -17,7 +17,7 @@ class MyTextfield extends StatefulWidget {
 }
 
 class _MyTextfieldState extends State<MyTextfield> {
-
+  // ignore: unused_field
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -30,11 +30,11 @@ class _MyTextfieldState extends State<MyTextfield> {
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey.shade500),
-            borderRadius: BorderRadius.circular(15)
+            borderRadius: BorderRadius.circular(15),
           ),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue),
-              borderRadius: BorderRadius.circular(15)
+            borderSide: BorderSide(color: Colors.blue),
+            borderRadius: BorderRadius.circular(15),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.red),
@@ -45,17 +45,14 @@ class _MyTextfieldState extends State<MyTextfield> {
             borderRadius: BorderRadius.circular(15),
           ),
           labelText: widget.labelText,
-          labelStyle: TextStyle(
-            color: Colors.grey.shade700
-          ),
+          labelStyle: TextStyle(color: Colors.grey.shade700),
           hintText: widget.hintText,
           border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey
-            )
+            borderSide: BorderSide(color: Colors.grey),
           ),
         ),
-        validator: (value){
-          if(value == null || value.isEmpty){
+        validator: (value) {
+          if (value == null || value.isEmpty) {
             return 'Veuillez remplir ce champ';
           }
           return null;

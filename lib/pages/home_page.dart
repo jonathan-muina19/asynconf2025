@@ -12,33 +12,33 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color(0xFF1877F2),
         centerTitle: true,
-        title: Text('Asynconf 2025', style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold
-          ),
+        title: Text(
+          'Asynconf 2025',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
                 'assets/images/logo.svg',
-                color: Color(0xFF1877F2)
-            ),
-            SizedBox(height: 10),
-            Text('Asynconf 2025',style: TextStyle(
-              fontSize: 30,
-              fontFamily: 'Poppins'
-              )
-            ),
-            Text('Salon virtuel de la programmation du 30 au 21 juillet 2025',style: TextStyle(
-              fontSize: 20,
-            ),
-              textAlign: TextAlign.center,
-            ),
-
-          ],
+                color: Color(0xFF1877F2),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Asynconf 2025',
+                style: TextStyle(fontSize: 30, fontFamily: 'Poppins'),
+              ),
+              Text(
+                'Salon virtuel de la programmation du 30 au 21 juillet 2025',
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
