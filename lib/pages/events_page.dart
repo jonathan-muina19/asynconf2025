@@ -1,3 +1,4 @@
+import 'package:asynconf2025/model/events_model.dart';
 import 'package:asynconf2025/widgets/my_button.dart';
 import 'package:asynconf2025/widgets/popup_events.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,6 +17,7 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
   bool _isLoading = true;
 
+
   @override
   void initState() {
     super.initState();
@@ -29,13 +31,13 @@ class _EventsPageState extends State<EventsPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    Future<void> _showDetailsEventDialog() async{
+    // Cette methode permet d'afficher la popup
+    Future<void> _showDetailsEventDialog(Event eventData) async{
       return showDialog(
           context: context,
           barrierDismissible: true,
           builder: (BuildContext context){
-            return const PopupEvents();
+            return PopupEvents(eventData: eventData );
           }
       );
     }
@@ -74,16 +76,20 @@ class _EventsPageState extends State<EventsPage> {
                     return const Center(child: Text("Aucune conférence"));
                   }
 
-                  final events = snapshot.data!.docs;
+                  List<Event> events = [];
+                  snapshot.data!.docs.forEach((data){
+                    final event = Event.fromData(data.data());
+                    events.add(event);
+                  });
 
                   return ListView.builder(
                     itemCount: events.length,
                     itemBuilder: (context, index) {
                       final event = events[index];
-                      final avatar = event['avatar'].toString().toLowerCase();
-                      final speaker = event['speaker'];
-                      final subject = event['subject'];
-                      final Timestamp timestamp = event['date'];
+                      final avatar = event.avatar.toString().toLowerCase();
+                      final speaker = event.speaker;
+                      final subject = event.subject;
+                      final Timestamp timestamp = event.timestamp;
                       final String date = DateFormat.yMd().add_jm().format(
                         timestamp.toDate(),
                       );
@@ -103,7 +109,7 @@ class _EventsPageState extends State<EventsPage> {
                           trailing: IconButton(
                             onPressed: () {
                               // future: voir détails
-                              _showDetailsEventDialog();
+                              _showDetailsEventDialog(event);
                             },
                             icon: const Icon(Icons.info_rounded),
                           ),

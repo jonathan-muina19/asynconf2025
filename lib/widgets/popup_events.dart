@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import '../model/events_model.dart';
 
 class PopupEvents extends StatelessWidget {
-  const PopupEvents({super.key});
+  final Event eventData;
+  const PopupEvents({super.key, required this.eventData});
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +17,11 @@ class PopupEvents extends StatelessWidget {
               SizedBox(height: 20),
               CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/images/musk.jpg'),
+                backgroundImage: AssetImage('assets/images/${eventData.avatar}.jpg'),
               ),
               SizedBox(height: 20),
-              Text('Titre : Sujet de conf'),
-              Text('Spesker : Elon Musk'),
+              Text('Titre : ${eventData.subject}'),
+              Text('Speaker : ${eventData.speaker}'),
               Text('Date de la conf : 25 juin 2025 a 12h'),
             ],
           ),
@@ -29,6 +31,7 @@ class PopupEvents extends StatelessWidget {
         Center(
           child: ElevatedButton.icon(
             onPressed: (){
+              Navigator.of(context).pop();
             },
             label: Text('Ajouter au calendrier'),
             icon: Icon(Icons.calendar_month),
@@ -44,6 +47,6 @@ class PopupEvents extends StatelessWidget {
           ),
         )
       ],
-    );;
+    );
   }
 }
