@@ -22,7 +22,8 @@ final _router = GoRouter(
     ShellRoute(
       builder: (context, state, child) {
         // Détecter la route active
-        final location = state.uri.path; // Cela te donne le chemin actuel de la route
+        final location =
+            state.uri.path; // Cela te donne le chemin actuel de la route
         int currentIndex = 0;
 
         if (location == '/events_page') {
@@ -50,12 +51,8 @@ final _router = GoRouter(
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
               BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_month),
+                icon: Icon(Icons.event_outlined),
                 label: 'Événements',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add),
-                label: 'Formulaire',
               ),
             ],
           ),
@@ -92,6 +89,7 @@ class _MyAppState extends State<MyApp> {
       routerConfig: _router,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        brightness: Brightness.light,
         appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)),
       ),
     );

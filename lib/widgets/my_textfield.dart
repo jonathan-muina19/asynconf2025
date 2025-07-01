@@ -23,7 +23,7 @@ class _MyTextfieldState extends State<MyTextfield> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
       child: TextFormField(
         cursorColor: Colors.blue,
         controller: widget.controller,

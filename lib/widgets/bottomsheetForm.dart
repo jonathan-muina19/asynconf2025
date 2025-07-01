@@ -1,22 +1,19 @@
-import 'package:asynconf2025/widgets/date_field.dart';
-import 'package:asynconf2025/widgets/dropdownButtonField.dart';
 import 'package:asynconf2025/widgets/my_button.dart';
 import 'package:asynconf2025/widgets/my_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// ignore: unused_import
-import 'package:date_field/date_field.dart';
-// ignore: unused_import
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-class FormEvent extends StatefulWidget {
-  const FormEvent({super.key});
+import 'date_field.dart';
+import 'dropdownButtonField.dart';
+
+class Bottomsheetform extends StatefulWidget {
+  const Bottomsheetform({super.key});
 
   @override
-  State<FormEvent> createState() => _FormEventState();
+  State<Bottomsheetform> createState() => _BottomsheetformState();
 }
 
-class _FormEventState extends State<FormEvent> {
+class _BottomsheetformState extends State<Bottomsheetform> {
   final TextEditingController controllerSpeaker = TextEditingController();
   final TextEditingController controllerSubject = TextEditingController();
   String selectedConfType = 'talk';
@@ -34,33 +31,40 @@ class _FormEventState extends State<FormEvent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Color(0xFF1877F2),
-        title: Text(
-          'Formulaire',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: Form(
+    return Container(
+      child: Form(
         key: _formKey,
-        child: Center(
-          child: Column(
+        child: SingleChildScrollView(
+          child: Wrap(
             children: [
-              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 23),
+                child: Column(
+                  children: [
+                    SizedBox(height: 13),
+                    Text(
+                      'Ajouter une conférence',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 20,
+                        color: Colors.grey.shade900,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Pour forcer une espacemment
+              Container(margin: EdgeInsets.all(3.0)),
               MyTextfield(
                 labelText: 'Nom du speaker',
                 hintText: 'ex: Bill Gates',
                 controller: controllerSpeaker,
               ),
-              SizedBox(height: 20),
               MyTextfield(
                 labelText: 'Nom du Sujet',
                 hintText: '',
                 controller: controllerSubject,
               ),
-              SizedBox(height: 20),
               DateField(
                 onDateSelected: (DateTime date) {
                   setState(() {
@@ -69,7 +73,8 @@ class _FormEventState extends State<FormEvent> {
                 },
               ),
 
-              SizedBox(height: 20),
+              // Pour forcer une espacement
+              Container(margin: EdgeInsets.all(3.0)),
               Dropdownbuttonfield(
                 selectedConfType: selectedConfType,
                 onChanged: (value) {
@@ -106,7 +111,7 @@ class _FormEventState extends State<FormEvent> {
                     selectedConfType == '';
                   }
                 },
-                textTitle: 'Envoyer',
+                textTitle: 'Ajouter',
                 icon: Icon(Icons.send),
               ),
             ],

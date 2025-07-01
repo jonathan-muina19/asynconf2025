@@ -1,4 +1,5 @@
 import 'package:asynconf2025/model/events_model.dart';
+import 'package:asynconf2025/widgets/bottomsheetForm.dart';
 import 'package:asynconf2025/widgets/my_button.dart';
 import 'package:asynconf2025/widgets/popup_events.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,7 +18,6 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
   bool _isLoading = true;
 
-
   @override
   void initState() {
     super.initState();
@@ -32,13 +32,22 @@ class _EventsPageState extends State<EventsPage> {
   @override
   Widget build(BuildContext context) {
     // Cette methode permet d'afficher la popup
-    Future<void> _showDetailsEventDialog(Event eventData) async{
+    Future<void> _showDetailsEventDialog(Event eventData) async {
       return showDialog(
-          context: context,
-          barrierDismissible: true,
-          builder: (BuildContext context){
-            return PopupEvents(eventData: eventData );
-          }
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return PopupEvents(eventData: eventData);
+        },
+      );
+    }
+
+    void _showBottomSheet(BuildContext context) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext contect) {
+          return Bottomsheetform();
+        },
       );
     }
 
@@ -47,7 +56,7 @@ class _EventsPageState extends State<EventsPage> {
         centerTitle: true,
         backgroundColor: const Color(0xFF1877F2),
         title: const Text(
-          'Planing du salon',
+          'Conférence disponible',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
@@ -58,13 +67,12 @@ class _EventsPageState extends State<EventsPage> {
               )
               : StreamBuilder(
                 stream:
-                    FirebaseFirestore.instance
-                        .collection('Events')
-                        .snapshots(),
+                    FirebaseFirestore.instance.collection('Events').snapshots(),
                 builder: (
                   BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot,
                 ) {
+
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
                       child: CircularProgressIndicator(
@@ -72,12 +80,46 @@ class _EventsPageState extends State<EventsPage> {
                       ),
                     );
                   }
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Center(child: Text("Aucune conférence"));
+                  // Si il y a une erreur
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.network(
+                            'https://cdn-icons-png.flaticon.com/128/4043/4043346.png',
+                          ),
+                          Text(
+                            'Une erreur est survenue !',
+                            style: TextStyle(fontFamily: 'Poppins'),
+                          ),
+                        ],
+                      ),
+                    );
                   }
 
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.network(
+                            'https://cdn-icons-png.flaticon.com/128/15236/15236412.png',
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            'Aucun évènement disponible !',
+                            style: TextStyle(fontFamily: 'Poppins'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  // Récupération des données de la base de données
                   List<Event> events = [];
-                  snapshot.data!.docs.forEach((data){
+
+                  snapshot.data!.docs.forEach((data) {
                     final event = Event.fromData(data.data());
                     events.add(event);
                   });
@@ -89,6 +131,7 @@ class _EventsPageState extends State<EventsPage> {
                       final avatar = event.avatar.toString().toLowerCase();
                       final speaker = event.speaker;
                       final subject = event.subject;
+                      final type = event.type;
                       final Timestamp timestamp = event.timestamp;
                       final String date = DateFormat.yMd().add_jm().format(
                         timestamp.toDate(),
@@ -106,12 +149,20 @@ class _EventsPageState extends State<EventsPage> {
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text('$subject\n$date'),
-                          trailing: IconButton(
-                            onPressed: () {
-                              // future: voir détails
-                              _showDetailsEventDialog(event);
-                            },
-                            icon: const Icon(Icons.info_rounded),
+                          trailing: Row(
+                            mainAxisSize:
+                                MainAxisSize.min, // <-- Ceci est essentiel !
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  // future: voir détails
+                                  _showDetailsEventDialog(event);
+                                },
+                                icon: const Icon(Icons.info_rounded),
+                                color: const Color(0xFF1877F2),
+                                tooltip: 'Voir détails',
+                              ),
+                            ],
                           ),
                         ),
                       );
@@ -119,6 +170,13 @@ class _EventsPageState extends State<EventsPage> {
                   );
                 },
               ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showBottomSheet(context);
+        },
+        child: Icon(Icons.add, color: Colors.white),
+        backgroundColor: Color(0xFF1877F2),
+      ),
     );
   }
 }

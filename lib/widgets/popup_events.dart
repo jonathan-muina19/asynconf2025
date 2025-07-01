@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../model/events_model.dart';
 
 class PopupEvents extends StatelessWidget {
@@ -17,20 +18,25 @@ class PopupEvents extends StatelessWidget {
               SizedBox(height: 20),
               CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/images/${eventData.avatar}.jpg'),
+                backgroundImage: AssetImage(
+                  'assets/images/${eventData.avatar}.jpg',
+                ),
               ),
               SizedBox(height: 20),
               Text('Titre : ${eventData.subject}'),
               Text('Speaker : ${eventData.speaker}'),
-              Text('Date de la conf : 25 juin 2025 a 12h'),
+              Text(
+                'Date : ${DateFormat.yMd().add_jm().format(eventData.timestamp.toDate())}',
+              ),
+              Text('Type de la conf : ${eventData.type}'),
             ],
           ),
         ),
       ),
-      actions: <Widget> [
+      actions: <Widget>[
         Center(
           child: ElevatedButton.icon(
-            onPressed: (){
+            onPressed: () {
               Navigator.of(context).pop();
             },
             label: Text('Ajouter au calendrier'),
@@ -45,7 +51,7 @@ class PopupEvents extends StatelessWidget {
               elevation: 3,
             ),
           ),
-        )
+        ),
       ],
     );
   }
